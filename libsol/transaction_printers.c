@@ -457,7 +457,7 @@ static int print_create_vote_account(
     summary_item_set_pubkey(item, "Create vote acct", ca_info->to);
 
     BAIL_IF(print_system_create_account_info(NULL, ca_info, header));
-    BAIL_IF(print_vote_initialize_info(NULL, vi_info, header));
+    BAIL_IF(print_vote_initialize_info(NULL, vi_info));
 
     return 0;
 }
@@ -475,7 +475,7 @@ static int print_create_vote_account_with_seed(
     summary_item_set_pubkey(item, "Create vote acct", ca_info->to);
 
     BAIL_IF(print_system_create_account_with_seed_info(NULL, ca_info, header));
-    BAIL_IF(print_vote_initialize_info(NULL, vi_info, header));
+    BAIL_IF(print_vote_initialize_info(NULL, vi_info));
 
     return 0;
 }
@@ -749,7 +749,7 @@ int print_transaction(
                 case ProgramIdStake:
                     return print_stake_info(&display_info->stake, header);
                 case ProgramIdVote:
-                    return print_vote_info(&display_info->vote, header);
+                    return print_vote_info(&display_info->vote);
                 case ProgramIdSplToken:
                     return print_spl_token_info(&display_info->spl_token, header);
                 case ProgramIdSplAssociatedTokenAccount:

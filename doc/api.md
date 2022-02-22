@@ -73,7 +73,7 @@ _This command returns a Solana pubkey for the given BIP 32 path_
 | Pubkey                                                                            | 32
 
 
-### SIGN SOLANA TRANSACTION
+### SIGN VELAS TRANSACTION
 
 #### Description
 

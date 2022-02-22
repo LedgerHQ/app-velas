@@ -63,13 +63,13 @@ int print_token_amount(
     return 0;
 }
 
-#define SOL_DECIMALS 9
+#define VLX_DECIMALS 18
 int print_amount(
     uint64_t amount,
     char *out,
     size_t out_length
 ) {
-    return print_token_amount(amount, "SOL", SOL_DECIMALS, out, out_length);
+    return print_token_amount(amount, "VLX", VLX_DECIMALS, out, out_length);
 }
 
 int print_sized_string(

@@ -234,8 +234,8 @@ int parse_vote_instructions(
 }
 
 static int print_vote_withdraw_info(
-    const VoteWithdrawInfo* info,
-    const MessageHeader* header
+    const VoteWithdrawInfo* info
+    // const MessageHeader* header
 ) {
     SummaryItem* item;
 
@@ -255,8 +255,8 @@ static int print_vote_withdraw_info(
 }
 
 static int print_vote_authorize_info(
-    const VoteAuthorizeInfo* info,
-    const MessageHeader* header
+    const VoteAuthorizeInfo* info
+    // const MessageHeader* header
 ) {
     const char* new_authority_title = NULL;
     SummaryItem* item;
@@ -283,8 +283,8 @@ static int print_vote_authorize_info(
 }
 
 static int print_vote_update_validator_id_info(
-    const VoteUpdateValidatorIdInfo* info,
-    const MessageHeader* header
+    const VoteUpdateValidatorIdInfo* info
+    // const MessageHeader* header
 ) {
     SummaryItem* item;
 
@@ -301,8 +301,8 @@ static int print_vote_update_validator_id_info(
 }
 
 static int print_vote_update_commission_info(
-    const VoteUpdateCommissionInfo* info,
-    const MessageHeader* header
+    const VoteUpdateCommissionInfo* info
+    // const MessageHeader* header
 ) {
     SummaryItem* item;
 
@@ -318,34 +318,34 @@ static int print_vote_update_commission_info(
     return 0;
 }
 
-int print_vote_info(const VoteInfo* info, const MessageHeader* header) {
+int print_vote_info(const VoteInfo* info) {
     switch (info->kind) {
         case VoteInitialize:
             return print_vote_initialize_info(
                 "Init vote acct",
-                &info->initialize,
-                header
+                &info->initialize
+                // header
             );
         case VoteWithdraw:
             return print_vote_withdraw_info(
-                &info->withdraw,
-                header
+                &info->withdraw
+                // header
             );
         case VoteAuthorize:
         case VoteAuthorizeChecked:
             return print_vote_authorize_info(
-                &info->authorize,
-                header
+                &info->authorize
+                // header
             );
         case VoteUpdateValidatorId:
             return print_vote_update_validator_id_info(
-                &info->update_validator_id,
-                header
+                &info->update_validator_id
+                // header
             );
         case VoteUpdateCommission:
             return print_vote_update_commission_info(
-                &info->update_commission,
-                header
+                &info->update_commission
+                // header
             );
         case VoteVote:
         case VoteSwitchVote:
@@ -357,8 +357,8 @@ int print_vote_info(const VoteInfo* info, const MessageHeader* header) {
 
 int print_vote_initialize_info(
     const char* primary_title,
-    const VoteInitializeInfo* info,
-    const MessageHeader* header
+    const VoteInitializeInfo* info
+    // const MessageHeader* header
 ) {
     SummaryItem* item;
     if (primary_title != NULL) {
