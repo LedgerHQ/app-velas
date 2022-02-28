@@ -5,7 +5,4 @@
 #include "sol/transaction_summary.h"
 #include "util.h"
 
-const Pubkey serum_assert_owner_program_id = {{
-    PROGRAM_ID_SERUM_ASSERT_OWNER
-}};
-
+const Pubkey serum_assert_owner_program_id = {{PROGRAM_ID_SERUM_ASSERT_OWNER}};

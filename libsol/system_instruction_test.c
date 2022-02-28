@@ -5,26 +5,26 @@
 #include <stdio.h>
 #include <assert.h>
 
-void test_parse_system_transfer_instructions() {
+void test_parse_system_transfer_instructions()
+{
     uint8_t message[] = {
         1, 0, 1,
         3,
-            171, 88, 202, 32, 185, 160, 182, 116, 130, 185, 73, 48, 13, 216, 170, 71,
-                172, 195, 165, 123, 87, 70, 130, 219, 5, 157, 240, 187, 26, 191, 158, 218,
-            204, 241, 115, 109, 41, 173, 110, 48, 24, 113, 210, 213, 163, 78, 1, 112,
-                146, 114, 235, 220, 96, 185, 184, 85, 163, 27, 124, 48, 54, 250, 233, 54,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        171, 88, 202, 32, 185, 160, 182, 116, 130, 185, 73, 48, 13, 216, 170, 71,
+        172, 195, 165, 123, 87, 70, 130, 219, 5, 157, 240, 187, 26, 191, 158, 218,
+        204, 241, 115, 109, 41, 173, 110, 48, 24, 113, 210, 213, 163, 78, 1, 112,
+        146, 114, 235, 220, 96, 185, 184, 85, 163, 27, 124, 48, 54, 250, 233, 54,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         1,
-            2,
-            2,
-                0, 1,
-            12, 
-                2, 0, 0, 0,
-                42, 0, 0, 0, 0, 0, 0, 0
-    };
+        2,
+        2,
+        0, 1,
+        12,
+        2, 0, 0, 0,
+        42, 0, 0, 0, 0, 0, 0, 0};
     Parser parser = {message, sizeof(message)};
     MessageHeader header;
     assert(parse_message_header(&parser, &header) == 0);
@@ -33,7 +33,7 @@ void test_parse_system_transfer_instructions() {
     assert(parse_instruction(&parser, &instruction) == 0);
     assert(instruction_validate(&instruction, &header) == 0);
 
-    const Pubkey* fee_payer_pubkey = &header.pubkeys[0];
+    const Pubkey *fee_payer_pubkey = &header.pubkeys[0];
     SystemInfo info;
     assert(parse_system_instructions(&instruction, &header, &info) == 0);
     assert(parser.buffer_length == 0);
@@ -41,26 +41,26 @@ void test_parse_system_transfer_instructions() {
     assert(memcmp(fee_payer_pubkey, info.transfer.from, PUBKEY_SIZE) == 0);
 }
 
-void test_parse_system_transfer_instructions_with_payer() {
+void test_parse_system_transfer_instructions_with_payer()
+{
     uint8_t message[] = {
         2, 0, 1,
         3,
-            204, 241, 115, 109, 41, 173, 110, 48, 24, 113, 210, 213, 163, 78, 1, 112,
-                146, 114, 235, 220, 96, 185, 184, 85, 163, 27, 124, 48, 54, 250, 233, 54,
-            171, 88, 202, 32, 185, 160, 182, 116, 130, 185, 73, 48, 13, 216, 170, 71,
-                172, 195, 165, 123, 87, 70, 130, 219, 5, 157, 240, 187, 26, 191, 158, 218,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        204, 241, 115, 109, 41, 173, 110, 48, 24, 113, 210, 213, 163, 78, 1, 112,
+        146, 114, 235, 220, 96, 185, 184, 85, 163, 27, 124, 48, 54, 250, 233, 54,
+        171, 88, 202, 32, 185, 160, 182, 116, 130, 185, 73, 48, 13, 216, 170, 71,
+        172, 195, 165, 123, 87, 70, 130, 219, 5, 157, 240, 187, 26, 191, 158, 218,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         1,
-            2,
-            2,
-                1, 0,
-            12,
-                2, 0, 0, 0,
-                42, 0, 0, 0, 0, 0, 0, 0
-    };
+        2,
+        2,
+        1, 0,
+        12,
+        2, 0, 0, 0,
+        42, 0, 0, 0, 0, 0, 0, 0};
     Parser parser = {message, sizeof(message)};
     MessageHeader header;
     assert(parse_message_header(&parser, &header) == 0);
@@ -69,7 +69,7 @@ void test_parse_system_transfer_instructions_with_payer() {
     assert(parse_instruction(&parser, &instruction) == 0);
     assert(instruction_validate(&instruction, &header) == 0);
 
-    const Pubkey* fee_payer_pubkey = &header.pubkeys[0];
+    const Pubkey *fee_payer_pubkey = &header.pubkeys[0];
     SystemInfo info;
     assert(parse_system_instructions(&instruction, &header, &info) == 0);
 
@@ -77,27 +77,27 @@ void test_parse_system_transfer_instructions_with_payer() {
     assert(memcmp(fee_payer_pubkey, info.transfer.to, PUBKEY_SIZE) == 0);
 }
 
-void test_parse_system_advance_nonce_account_instruction() {
+void test_parse_system_advance_nonce_account_instruction()
+{
     uint8_t message[] = {
         1, 1, 2,
         4,
-            18, 67, 85, 168, 124, 173, 88, 142, 77, 171, 80, 178, 8, 218, 230, 68,
-                85, 231, 39, 54, 184, 42, 162, 85, 172, 139, 54, 173, 194, 7, 64, 250,
-            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-            6, 167, 213, 23, 25, 44, 86, 142, 224, 138, 132, 95, 115, 210, 151, 136,
-                207, 3, 92, 49, 69, 178, 26, 179, 68, 216, 6, 46, 169, 64, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        18, 67, 85, 168, 124, 173, 88, 142, 77, 171, 80, 178, 8, 218, 230, 68,
+        85, 231, 39, 54, 184, 42, 162, 85, 172, 139, 54, 173, 194, 7, 64, 250,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        6, 167, 213, 23, 25, 44, 86, 142, 224, 138, 132, 95, 115, 210, 151, 136,
+        207, 3, 92, 49, 69, 178, 26, 179, 68, 216, 6, 46, 169, 64, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         1,
-            3,
-            3,
-                1, 2, 0,
-            4,
-                4, 0, 0, 0
-    };
+        3,
+        3,
+        1, 2, 0,
+        4,
+        4, 0, 0, 0};
     Parser parser = {message, sizeof(message)};
     MessageHeader header;
     assert(parse_message_header(&parser, &header) == 0);
@@ -107,7 +107,7 @@ void test_parse_system_advance_nonce_account_instruction() {
     assert(instruction_validate(&instruction, &header) == 0);
 
     enum SystemInstructionKind kind;
-    Parser instruction_parser = { instruction.data, instruction.data_length };
+    Parser instruction_parser = {instruction.data, instruction.data_length};
     assert(parse_system_instruction_kind(&instruction_parser, &kind) == 0);
     assert(kind == SystemAdvanceNonceAccount);
 
@@ -116,25 +116,19 @@ void test_parse_system_advance_nonce_account_instruction() {
         parse_system_advance_nonce_account_instruction(
             &instruction_parser,
             &instruction, &header,
-            &info
-        ) == 0
-    );
+            &info) == 0);
     size_t account_index = instruction.accounts[0];
     size_t authority_index = instruction.accounts[2];
     assert(
         memcmp(
             info.account,
             &header.pubkeys[account_index],
-            PUBKEY_SIZE
-        ) == 0
-    );
+            PUBKEY_SIZE) == 0);
     assert(
         memcmp(
             info.authority,
             &header.pubkeys[authority_index],
-            PUBKEY_SIZE
-        ) == 0
-    );
+            PUBKEY_SIZE) == 0);
 
     transaction_summary_reset();
     assert(print_system_advance_nonce_account(&info, &header) == 0);
@@ -149,16 +143,12 @@ void test_parse_system_advance_nonce_account_instruction() {
         memcmp(
             info.account,
             &header.pubkeys[account_index],
-            PUBKEY_SIZE
-        ) == 0
-    );
+            PUBKEY_SIZE) == 0);
     assert(
         memcmp(
             info.authority,
             &header.pubkeys[authority_index],
-            PUBKEY_SIZE
-        ) == 0
-    );
+            PUBKEY_SIZE) == 0);
 
     num_kinds = 0;
     transaction_summary_reset();
@@ -167,23 +157,24 @@ void test_parse_system_advance_nonce_account_instruction() {
     assert(num_kinds == 3);
 }
 
-void test_system_create_account_with_seed_instruction() {
-#define FROM_PUBKEY     BYTES32_BS58_2
-#define TO_PUBKEY       BYTES32_BS58_3
-#define BASE_PUBKEY     BYTES32_BS58_4
+void test_system_create_account_with_seed_instruction()
+{
+#define FROM_PUBKEY BYTES32_BS58_2
+#define TO_PUBKEY BYTES32_BS58_3
+#define BASE_PUBKEY BYTES32_BS58_4
     Pubkey pubkeys[3] = {
-        {{ FROM_PUBKEY }},
-        {{ TO_PUBKEY }},
+        {{FROM_PUBKEY}},
+        {{TO_PUBKEY}},
     };
     memcpy(&pubkeys[2], &system_program_id, PUBKEY_SIZE);
-    Blockhash blockhash = {{ BYTES32_BS58_5 }};
+    Blockhash blockhash = {{BYTES32_BS58_5}};
     MessageHeader header = {
-        { 2, 0, 0, ARRAY_LEN(pubkeys) },
+        {2, 0, 0, ARRAY_LEN(pubkeys)},
         pubkeys,
         &blockhash,
         1,
     };
-    uint8_t accounts[] = { 0, 1 };
+    uint8_t accounts[] = {0, 1};
     uint8_t ix_data[] = {
         /* kind */
         0x03, 0x00, 0x00, 0x00,
@@ -197,8 +188,7 @@ void test_system_create_account_with_seed_instruction() {
         /* space (16) */
         0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         /* program id */
-        PROGRAM_ID_STAKE
-    };
+        PROGRAM_ID_STAKE};
     Instruction instruction = {
         2,
         accounts,
@@ -210,23 +200,21 @@ void test_system_create_account_with_seed_instruction() {
     /* skip kind */
     Parser parser = {
         ix_data + sizeof(uint32_t),
-        sizeof(ix_data) - sizeof(uint32_t)
-    };
+        sizeof(ix_data) - sizeof(uint32_t)};
     SystemInfo info;
     assert(parse_system_create_account_with_seed_instruction(
-        &parser,
-        &instruction,
-        &header,
-        &info.create_account_with_seed
-    ) == 0);
-    SystemCreateAccountWithSeedInfo* cws_info = &info.create_account_with_seed;
-    Pubkey from = {{ FROM_PUBKEY }};
+               &parser,
+               &instruction,
+               &header,
+               &info.create_account_with_seed) == 0);
+    SystemCreateAccountWithSeedInfo *cws_info = &info.create_account_with_seed;
+    Pubkey from = {{FROM_PUBKEY}};
     assert(memcmp(&from, cws_info->from, PUBKEY_SIZE) == 0);
-    Pubkey to = {{ TO_PUBKEY }};
+    Pubkey to = {{TO_PUBKEY}};
     assert(memcmp(&to, cws_info->to, PUBKEY_SIZE) == 0);
-    Pubkey base = {{ BASE_PUBKEY }};
+    Pubkey base = {{BASE_PUBKEY}};
     assert(memcmp(&base, cws_info->base, PUBKEY_SIZE) == 0);
-    SizedString* seed = &cws_info->seed;
+    SizedString *seed = &cws_info->seed;
     assert(strncmp("seed", seed->string, seed->length) == 0);
     assert(cws_info->lamports == 1);
 
@@ -234,26 +222,26 @@ void test_system_create_account_with_seed_instruction() {
     assert(parse_system_instructions(&instruction, &header, &info) == 0);
 }
 
-void test_process_system_transfer() {
+void test_process_system_transfer()
+{
     uint8_t message[] = {
         1, 0, 1,
         3,
-            171, 88, 202, 32, 185, 160, 182, 116, 130, 185, 73, 48, 13, 216, 170, 71,
-                172, 195, 165, 123, 87, 70, 130, 219, 5, 157, 240, 187, 26, 191, 158, 218,
-            204, 241, 115, 109, 41, 173, 110, 48, 24, 113, 210, 213, 163, 78, 1, 112,
-                146, 114, 235, 220, 96, 185, 184, 85, 163, 27, 124, 48, 54, 250, 233, 54,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        171, 88, 202, 32, 185, 160, 182, 116, 130, 185, 73, 48, 13, 216, 170, 71,
+        172, 195, 165, 123, 87, 70, 130, 219, 5, 157, 240, 187, 26, 191, 158, 218,
+        204, 241, 115, 109, 41, 173, 110, 48, 24, 113, 210, 213, 163, 78, 1, 112,
+        146, 114, 235, 220, 96, 185, 184, 85, 163, 27, 124, 48, 54, 250, 233, 54,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         1,
-            2,
-            2,
-                0, 1,
-            12,
-                2, 0, 0, 0,
-                42, 0, 0, 0, 0, 0, 0, 0
-    };
+        2,
+        2,
+        0, 1,
+        12,
+        2, 0, 0, 0,
+        42, 0, 0, 0, 0, 0, 0, 0};
     Parser parser = {message, sizeof(message)};
     MessageHeader header;
     assert(parse_message_header(&parser, &header) == 0);
@@ -281,7 +269,8 @@ void test_process_system_transfer() {
     assert_string_equal(G_transaction_summary_text, "sender");
 }
 
-void test_parse_system_instruction_kind() {
+void test_parse_system_instruction_kind()
+{
     enum SystemInstructionKind kind;
     uint8_t buf[] = {0, 0, 0, 0};
     Parser parser = {buf, ARRAY_LEN(buf)};
@@ -364,7 +353,8 @@ void test_parse_system_instruction_kind() {
     assert(parse_system_instruction_kind(&parser, &kind) == 1);
 }
 
-int main() {
+int main()
+{
     test_parse_system_transfer_instructions();
     test_parse_system_transfer_instructions_with_payer();
     test_parse_system_advance_nonce_account_instruction();

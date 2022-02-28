@@ -4,7 +4,8 @@
 
 extern const Pubkey system_program_id;
 
-enum SystemInstructionKind {
+enum SystemInstructionKind
+{
     SystemCreateAccount,
     SystemAssign,
     SystemTransfer,
@@ -18,70 +19,82 @@ enum SystemInstructionKind {
     SystemAssignWithSeed
 };
 
-typedef struct SystemCreateAccountInfo {
-    const Pubkey* from;
-    const Pubkey* to;
+typedef struct SystemCreateAccountInfo
+{
+    const Pubkey *from;
+    const Pubkey *to;
     uint64_t lamports;
 } SystemCreateAccountInfo;
 
-typedef struct SystemCreateAccountWithSeedInfo {
-    const Pubkey* from;
-    const Pubkey* to;
-    const Pubkey* base;
+typedef struct SystemCreateAccountWithSeedInfo
+{
+    const Pubkey *from;
+    const Pubkey *to;
+    const Pubkey *base;
     SizedString seed;
     uint64_t lamports;
 } SystemCreateAccountWithSeedInfo;
 
-typedef struct SystemTransferInfo {
-    const Pubkey* from;
-    const Pubkey* to;
+typedef struct SystemTransferInfo
+{
+    const Pubkey *from;
+    const Pubkey *to;
     uint64_t lamports;
 } SystemTransferInfo;
 
-typedef struct SystemAdvanceNonceInfo {
-    const Pubkey* account;
-    const Pubkey* authority;
+typedef struct SystemAdvanceNonceInfo
+{
+    const Pubkey *account;
+    const Pubkey *authority;
 } SystemAdvanceNonceInfo;
 
-typedef struct SystemInitializeNonceInfo {
-    const Pubkey* account;
-    const Pubkey* authority;
+typedef struct SystemInitializeNonceInfo
+{
+    const Pubkey *account;
+    const Pubkey *authority;
 } SystemInitializeNonceInfo;
 
-typedef struct SystemWithdrawNonceInfo {
-    const Pubkey* account;
-    const Pubkey* authority;
-    const Pubkey* to;
+typedef struct SystemWithdrawNonceInfo
+{
+    const Pubkey *account;
+    const Pubkey *authority;
+    const Pubkey *to;
     uint64_t lamports;
 } SystemWithdrawNonceInfo;
 
-typedef struct SystemAuthorizeNonceInfo {
-    const Pubkey* account;
-    const Pubkey* authority;
-    const Pubkey* new_authority;
+typedef struct SystemAuthorizeNonceInfo
+{
+    const Pubkey *account;
+    const Pubkey *authority;
+    const Pubkey *new_authority;
 } SystemAuthorizeNonceInfo;
 
-typedef struct SystemAllocateInfo {
-    const Pubkey* account;
+typedef struct SystemAllocateInfo
+{
+    const Pubkey *account;
     uint64_t space;
 } SystemAllocateInfo;
 
-typedef struct SystemAssignInfo {
-    const Pubkey* account;
-    const Pubkey* program_id;
+typedef struct SystemAssignInfo
+{
+    const Pubkey *account;
+    const Pubkey *program_id;
 } SystemAssignInfo;
 
-typedef struct SystemAllocateWithSeedInfo {
-    const Pubkey* account;
-    const Pubkey* base;
+typedef struct SystemAllocateWithSeedInfo
+{
+    const Pubkey *account;
+    const Pubkey *base;
     SizedString seed;
     uint64_t space;
-    const Pubkey* program_id;
+    const Pubkey *program_id;
 } SystemAllocateWithSeedInfo;
 
-typedef struct SystemInfo {
+typedef struct SystemInfo
+{
     enum SystemInstructionKind kind;
-    union {
+    union
+    {
         SystemTransferInfo transfer;
         SystemCreateAccountInfo create_account;
         SystemCreateAccountWithSeedInfo create_account_with_seed;
@@ -96,35 +109,28 @@ typedef struct SystemInfo {
 } SystemInfo;
 
 int parse_system_instructions(
-    const Instruction* instruction,
-    const MessageHeader* header,
-    SystemInfo* info
-);
+    const Instruction *instruction,
+    const MessageHeader *header,
+    SystemInfo *info);
 int print_system_info(
-    const SystemInfo* info,
-    const MessageHeader* header
-);
+    const SystemInfo *info,
+    const MessageHeader *header);
 int print_system_nonced_transaction_sentinel(
-    const SystemInfo* info,
-    const MessageHeader* header
-);
+    const SystemInfo *info,
+    const MessageHeader *header);
 int print_system_create_account_info(
-    const char* primary_title,
-    const SystemCreateAccountInfo* info,
-    const MessageHeader* header
-);
+    const char *primary_title,
+    const SystemCreateAccountInfo *info,
+    const MessageHeader *header);
 int print_system_create_account_with_seed_info(
-    const char* primary_title,
-    const SystemCreateAccountWithSeedInfo* info,
-    const MessageHeader* header
-);
+    const char *primary_title,
+    const SystemCreateAccountWithSeedInfo *info,
+    const MessageHeader *header);
 int print_system_initialize_nonce_info(
-    const char* primary_title,
-    const SystemInitializeNonceInfo* info,
-    const MessageHeader* header
-);
+    const char *primary_title,
+    const SystemInitializeNonceInfo *info,
+    const MessageHeader *header);
 int print_system_allocate_with_seed_info(
-    const char* primary_title,
-    const SystemAllocateWithSeedInfo* info,
-    const MessageHeader* header
-);
+    const char *primary_title,
+    const SystemAllocateWithSeedInfo *info,
+    const MessageHeader *header);

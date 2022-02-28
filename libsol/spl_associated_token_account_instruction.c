@@ -5,15 +5,13 @@
 #include "spl_associated_token_account_instruction.h"
 #include "util.h"
 
-const Pubkey spl_associated_token_account_program_id = {{
-    PROGRAM_ID_SPL_ASSOCIATED_TOKEN_ACCOUNT
-}};
+const Pubkey spl_associated_token_account_program_id = {{PROGRAM_ID_SPL_ASSOCIATED_TOKEN_ACCOUNT}};
 
 static int parse_create_spl_associated_token_account_instruction(
-    const Instruction* instruction,
-    const MessageHeader* header,
-    SplAssociatedTokenAccountCreateInfo* info
-) {
+    const Instruction *instruction,
+    const MessageHeader *header,
+    SplAssociatedTokenAccountCreateInfo *info)
+{
     InstructionAccountsIterator it;
     instruction_accounts_iterator_init(&it, header, instruction);
 
@@ -32,22 +30,21 @@ static int parse_create_spl_associated_token_account_instruction(
 }
 
 int parse_spl_associated_token_account_instructions(
-    const Instruction* instruction,
-    const MessageHeader* header,
-    SplAssociatedTokenAccountInfo* info
-) {
+    const Instruction *instruction,
+    const MessageHeader *header,
+    SplAssociatedTokenAccountInfo *info)
+{
     return parse_create_spl_associated_token_account_instruction(
         instruction,
         header,
-        &info->create
-    );
+        &info->create);
 }
 
 int print_spl_associated_token_account_create_info(
-    const SplAssociatedTokenAccountCreateInfo* info,
-    const MessageHeader* header
-) {
-    SummaryItem* item = transaction_summary_primary_item();
+    const SplAssociatedTokenAccountCreateInfo *info,
+    const MessageHeader *header)
+{
+    SummaryItem *item = transaction_summary_primary_item();
     summary_item_set_pubkey(item, "Create token acct", info->address);
 
     item = transaction_summary_general_item();
@@ -68,11 +65,10 @@ int print_spl_associated_token_account_create_info(
 }
 
 int print_spl_associated_token_account_info(
-    const SplAssociatedTokenAccountInfo* info,
-    const MessageHeader* header
-) {
+    const SplAssociatedTokenAccountInfo *info,
+    const MessageHeader *header)
+{
     return print_spl_associated_token_account_create_info(
         &info->create,
-        header
-    );
+        header);
 }

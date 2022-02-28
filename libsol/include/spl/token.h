@@ -22,9 +22,9 @@
  */
 enum Token_AccountState
 #ifdef __cplusplus
-  : uint8_t
+    : uint8_t
 #endif // __cplusplus
- {
+{
     /**
      * Account is not yet initialized
      */
@@ -49,9 +49,9 @@ typedef uint8_t Token_AccountState;
  */
 enum Token_AuthorityType
 #ifdef __cplusplus
-  : uint8_t
+    : uint8_t
 #endif // __cplusplus
- {
+{
     /**
      * Authority to mint new tokens
      */
@@ -78,7 +78,8 @@ typedef uint8_t Token_Pubkey[32];
 /**
  * A C representation of Rust's `std::option::Option`
  */
-typedef enum Token_COption_Pubkey_Tag {
+typedef enum Token_COption_Pubkey_Tag
+{
     /**
      * No value
      */
@@ -89,10 +90,13 @@ typedef enum Token_COption_Pubkey_Tag {
     Token_COption_Pubkey_Some_Pubkey,
 } Token_COption_Pubkey_Tag;
 
-typedef struct Token_COption_Pubkey {
+typedef struct Token_COption_Pubkey
+{
     Token_COption_Pubkey_Tag tag;
-    union {
-        struct {
+    union
+    {
+        struct
+        {
             Token_Pubkey some;
         };
     };
@@ -101,7 +105,8 @@ typedef struct Token_COption_Pubkey {
 /**
  * Instructions supported by the token program.
  */
-typedef enum Token_TokenInstruction_Tag {
+typedef enum Token_TokenInstruction_Tag
+{
     /**
      * Initializes a new mint and optionally deposits all the newly minted
      * tokens in an account.
@@ -441,7 +446,8 @@ typedef enum Token_TokenInstruction_Tag {
     Token_TokenInstruction_SyncNative,
 } Token_TokenInstruction_Tag;
 
-typedef struct Token_TokenInstruction_Token_InitializeMint_Body {
+typedef struct Token_TokenInstruction_Token_InitializeMint_Body
+{
     /**
      * Number of base 10 digits to the right of the decimal place.
      */
@@ -456,7 +462,8 @@ typedef struct Token_TokenInstruction_Token_InitializeMint_Body {
     struct Token_COption_Pubkey freeze_authority;
 } Token_TokenInstruction_Token_InitializeMint_Body;
 
-typedef struct Token_TokenInstruction_Token_InitializeMultisig_Body {
+typedef struct Token_TokenInstruction_Token_InitializeMultisig_Body
+{
     /**
      * The number of signers (M) required to validate this multisignature
      * account.
@@ -464,21 +471,24 @@ typedef struct Token_TokenInstruction_Token_InitializeMultisig_Body {
     uint8_t m;
 } Token_TokenInstruction_Token_InitializeMultisig_Body;
 
-typedef struct Token_TokenInstruction_Token_Transfer_Body {
+typedef struct Token_TokenInstruction_Token_Transfer_Body
+{
     /**
      * The amount of tokens to transfer.
      */
     uint64_t amount;
 } Token_TokenInstruction_Token_Transfer_Body;
 
-typedef struct Token_TokenInstruction_Token_Approve_Body {
+typedef struct Token_TokenInstruction_Token_Approve_Body
+{
     /**
      * The amount of tokens the delegate is approved for.
      */
     uint64_t amount;
 } Token_TokenInstruction_Token_Approve_Body;
 
-typedef struct Token_TokenInstruction_Token_SetAuthority_Body {
+typedef struct Token_TokenInstruction_Token_SetAuthority_Body
+{
     /**
      * The type of authority to update.
      */
@@ -489,21 +499,24 @@ typedef struct Token_TokenInstruction_Token_SetAuthority_Body {
     struct Token_COption_Pubkey new_authority;
 } Token_TokenInstruction_Token_SetAuthority_Body;
 
-typedef struct Token_TokenInstruction_Token_MintTo_Body {
+typedef struct Token_TokenInstruction_Token_MintTo_Body
+{
     /**
      * The amount of new tokens to mint.
      */
     uint64_t amount;
 } Token_TokenInstruction_Token_MintTo_Body;
 
-typedef struct Token_TokenInstruction_Token_Burn_Body {
+typedef struct Token_TokenInstruction_Token_Burn_Body
+{
     /**
      * The amount of tokens to burn.
      */
     uint64_t amount;
 } Token_TokenInstruction_Token_Burn_Body;
 
-typedef struct Token_TokenInstruction_Token_TransferChecked_Body {
+typedef struct Token_TokenInstruction_Token_TransferChecked_Body
+{
     /**
      * The amount of tokens to transfer.
      */
@@ -514,7 +527,8 @@ typedef struct Token_TokenInstruction_Token_TransferChecked_Body {
     uint8_t decimals;
 } Token_TokenInstruction_Token_TransferChecked_Body;
 
-typedef struct Token_TokenInstruction_Token_ApproveChecked_Body {
+typedef struct Token_TokenInstruction_Token_ApproveChecked_Body
+{
     /**
      * The amount of tokens the delegate is approved for.
      */
@@ -525,7 +539,8 @@ typedef struct Token_TokenInstruction_Token_ApproveChecked_Body {
     uint8_t decimals;
 } Token_TokenInstruction_Token_ApproveChecked_Body;
 
-typedef struct Token_TokenInstruction_Token_MintToChecked_Body {
+typedef struct Token_TokenInstruction_Token_MintToChecked_Body
+{
     /**
      * The amount of new tokens to mint.
      */
@@ -536,7 +551,8 @@ typedef struct Token_TokenInstruction_Token_MintToChecked_Body {
     uint8_t decimals;
 } Token_TokenInstruction_Token_MintToChecked_Body;
 
-typedef struct Token_TokenInstruction_Token_BurnChecked_Body {
+typedef struct Token_TokenInstruction_Token_BurnChecked_Body
+{
     /**
      * The amount of tokens to burn.
      */
@@ -547,16 +563,19 @@ typedef struct Token_TokenInstruction_Token_BurnChecked_Body {
     uint8_t decimals;
 } Token_TokenInstruction_Token_BurnChecked_Body;
 
-typedef struct Token_TokenInstruction_Token_InitializeAccount2_Body {
+typedef struct Token_TokenInstruction_Token_InitializeAccount2_Body
+{
     /**
      * The new account's owner/multisignature.
      */
     Token_Pubkey owner;
 } Token_TokenInstruction_Token_InitializeAccount2_Body;
 
-typedef struct Token_TokenInstruction {
+typedef struct Token_TokenInstruction
+{
     Token_TokenInstruction_Tag tag;
-    union {
+    union
+    {
         Token_TokenInstruction_Token_InitializeMint_Body initialize_mint;
         Token_TokenInstruction_Token_InitializeMultisig_Body initialize_multisig;
         Token_TokenInstruction_Token_Transfer_Body transfer;
@@ -575,7 +594,8 @@ typedef struct Token_TokenInstruction {
 /**
  * Mint data.
  */
-typedef struct Token_Mint {
+typedef struct Token_Mint
+{
     /**
      * Optional authority used to mint new tokens. The mint authority may only be provided during
      * mint creation. If no mint authority is present then the mint has a fixed supply and no
@@ -603,7 +623,8 @@ typedef struct Token_Mint {
 /**
  * A C representation of Rust's `std::option::Option`
  */
-typedef enum Token_COption_u64_Tag {
+typedef enum Token_COption_u64_Tag
+{
     /**
      * No value
      */
@@ -614,10 +635,13 @@ typedef enum Token_COption_u64_Tag {
     Token_COption_u64_Some_u64,
 } Token_COption_u64_Tag;
 
-typedef struct Token_COption_u64 {
+typedef struct Token_COption_u64
+{
     Token_COption_u64_Tag tag;
-    union {
-        struct {
+    union
+    {
+        struct
+        {
             uint64_t some;
         };
     };
@@ -626,7 +650,8 @@ typedef struct Token_COption_u64 {
 /**
  * Account data.
  */
-typedef struct Token_Account {
+typedef struct Token_Account
+{
     /**
      * The mint associated with this account
      */
@@ -667,7 +692,8 @@ typedef struct Token_Account {
 /**
  * Multisignature data.
  */
-typedef struct Token_Multisig {
+typedef struct Token_Multisig
+{
     /**
      * Number of signers required
      */

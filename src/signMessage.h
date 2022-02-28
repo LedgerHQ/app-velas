@@ -13,7 +13,6 @@ void handleSignMessage(
     uint8_t *dataBuffer,
     uint16_t dataLength,
     volatile unsigned int *flags,
-    volatile unsigned int *tx
-);
+    volatile unsigned int *tx);
 
 #endif

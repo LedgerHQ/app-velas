@@ -2,7 +2,8 @@
 #include <assert.h>
 #include <stdio.h>
 
-void test_parse_vote_instruction_kind() {
+void test_parse_vote_instruction_kind()
+{
     enum VoteInstructionKind kind;
     uint8_t buf[] = {0, 0, 0, 0};
     Parser parser = {buf, ARRAY_LEN(buf)};
@@ -67,7 +68,8 @@ void test_parse_vote_instruction_kind() {
     assert(parse_vote_instruction_kind(&parser, &kind) == 1);
 }
 
-void test_parse_vote_authorize_enum() {
+void test_parse_vote_authorize_enum()
+{
     enum VoteAuthorize authorize;
     uint8_t buf[] = {0, 0, 0, 0};
     Parser parser = {buf, ARRAY_LEN(buf)};
@@ -96,7 +98,8 @@ void test_parse_vote_authorize_enum() {
     assert(parse_vote_authorize(&parser, &authorize) == 1);
 }
 
-int main() {
+int main()
+{
     test_parse_vote_instruction_kind();
     test_parse_vote_authorize_enum();
 
