@@ -8,7 +8,7 @@ int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
     MessageHeader header;
 
     if (parse_message_header(&parser, &header)) {
-        // This is not a valid Solana message
+        // This is not a valid Velas message
         return 0;
     }
     transaction_summary_reset();
