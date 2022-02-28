@@ -1,19 +1,19 @@
 use rand::prelude::{RngCore, SeedableRng, StdRng};
-use velas_remote_wallet::{
+use solana_remote_wallet::{
     ledger::{LedgerSettings, LedgerWallet},
     ledger_error::LedgerError,
     locator::Manufacturer,
     remote_wallet::{initialize_wallet_manager, RemoteWallet, RemoteWalletError},
 };
-use velas_sdk::{
+use solana_sdk::{
     derivation_path::DerivationPath,
     instruction::{AccountMeta, Instruction},
     message::Message,
     pubkey::Pubkey,
     system_instruction, system_program,
 };
-use velas_stake_program::{stake_instruction, stake_state};
-use velas_vote_program::{vote_instruction, vote_state};
+use solana_stake_program::{stake_instruction, stake_state};
+use solana_vote_program::{vote_instruction, vote_state};
 use spl_associated_token_account::*;
 use std::{collections::HashSet, sync::Arc};
 
@@ -78,7 +78,7 @@ fn test_ledger_sign_transaction() -> Result<(), RemoteWalletError> {
     let recipients: Vec<(Pubkey, u64)> = (0..10).map(|_| (Pubkey::new_unique(), 42)).collect();
     let instructions = system_instruction::transfer_many(&from, &recipients);
     let message = Message::new(&instructions, Some(&ledger_base_pubkey)).serialize();
-    let hash = velas_sdk::hash::hash(&message);
+    let hash = solana_sdk::hash::hash(&message);
     println!("Expected hash: {}", hash);
     let signature = ledger.sign_message(&derivation_path, &message)?;
     assert!(signature.verify(&from.as_ref(), &message));
@@ -196,7 +196,7 @@ fn test_create_stake_account_with_seed_and_nonce() -> Result<(), RemoteWalletErr
     let nonce_authority = Pubkey::new(&[2u8; 32]);
     let base = from;
     let seed = "seedseedseedseedseedseedseedseed";
-    let stake_account = Pubkey::create_with_seed(&base, seed, &velas_stake_program::id()).unwrap();
+    let stake_account = Pubkey::create_with_seed(&base, seed, &solana_stake_program::id()).unwrap();
     let authorized = stake_state::Authorized {
         staker: Pubkey::new(&[3u8; 32]),
         withdrawer: Pubkey::new(&[4u8; 32]),
@@ -301,7 +301,7 @@ fn test_create_stake_account_checked_with_seed_and_nonce() -> Result<(), RemoteW
     let nonce_authority = Pubkey::new(&[2u8; 32]);
     let base = from;
     let seed = "seedseedseedseedseedseedseedseed";
-    let stake_account = Pubkey::create_with_seed(&base, seed, &velas_stake_program::id()).unwrap();
+    let stake_account = Pubkey::create_with_seed(&base, seed, &solana_stake_program::id()).unwrap();
     let authorized = stake_state::Authorized {
         staker: Pubkey::new(&[3u8; 32]),
         withdrawer: Pubkey::new(&[4u8; 32]),
@@ -383,7 +383,7 @@ fn test_sign_full_shred_of_garbage_tx() -> Result<(), RemoteWalletError> {
         data,
     };
     let message = Message::new(&[instruction], Some(&ledger_base_pubkey)).serialize();
-    let hash = velas_sdk::hash::hash(&message);
+    let hash = solana_sdk::hash::hash(&message);
     println!("Expected hash: {}", hash);
     let signature = ledger.sign_message(&derivation_path, &message)?;
     assert!(signature.verify(&from.as_ref(), &message));
@@ -420,7 +420,7 @@ fn test_create_vote_account_with_seed() -> Result<(), RemoteWalletError> {
     let from = ledger.get_pubkey(&derivation_path, false)?;
     let base = from;
     let seed = "seedseedseedseedseedseedseedseed";
-    let vote_account = Pubkey::create_with_seed(&base, seed, &velas_vote_program::id()).unwrap();
+    let vote_account = Pubkey::create_with_seed(&base, seed, &solana_vote_program::id()).unwrap();
     let vote_init = vote_state::VoteInit {
         node_pubkey: Pubkey::new(&[1u8; 32]),
         authorized_voter: Pubkey::new(&[2u8; 32]),
@@ -823,7 +823,7 @@ fn test_stake_split_with_seed() -> Result<(), RemoteWalletError> {
     let stake_account = ledger_base_pubkey;
     let base = stake_authority;
     let seed = "seedseedseedseedseedseedseedseed";
-    let split_account = Pubkey::create_with_seed(&base, seed, &velas_stake_program::id()).unwrap();
+    let split_account = Pubkey::create_with_seed(&base, seed, &solana_stake_program::id()).unwrap();
     let instructions = stake_instruction::split_with_seed(
         &stake_account,
         &stake_authority,
@@ -1550,7 +1550,7 @@ fn test_spl_associated_token_account_create_with_transfer_checked() -> Result<()
 mod serum_assert_owner_program {
     use super::*;
 
-    velas_sdk::declare_id!("4MNPdKu9wFMvEeZBMt3Eipfs5ovVWTJb31pEXDJAAxX5");
+    solana_sdk::declare_id!("4MNPdKu9wFMvEeZBMt3Eipfs5ovVWTJb31pEXDJAAxX5");
 
     pub mod instruction {
         use super::*;
@@ -1629,7 +1629,7 @@ fn ensure_blind_signing() -> Result<(), RemoteWalletError> {
     Ok(())
 }
 fn main() {
-    velas_logger::setup();
+    solana_logger::setup();
     match do_run_tests() {
         Err(e @ RemoteWalletError::LedgerError(LedgerError::UserCancel)) => {
             println!(" >>> {} <<<", e);
