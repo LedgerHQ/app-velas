@@ -1,14 +1,15 @@
-[![Build Status](https://travis-ci.org/solana-labs/ledger-app-solana.svg?branch=master)](https://travis-ci.org/solana-labs/ledger-app-solana)
+[![Compilation & tests](https://github.com/blooo-io/LedgerHQ-app-velas/actions/workflows/ci-workflow.yml/badge.svg)](https://github.com/blooo-io/LedgerHQ-app-velas/actions/workflows/ci-workflow.yml)
+[![Code style check](https://github.com/blooo-io/LedgerHQ-app-velas/actions/workflows/lint-workflow.yml/badge.svg)](https://github.com/blooo-io/LedgerHQ-app-velas/actions/workflows/lint-workflow.yml)
 
-# Solana app for Ledger Wallet
+# Velas app for Ledger Wallet
 
 ## Overview
 
-This app adds support for the Solana native token to Ledger Nano S hardware wallet.
+This app adds support for the Velas native token to Ledger Nano S hardware wallet.
 
 Current Features:
 - Pubkey queries
-- Parse, display and sign all Solana CLI generated transaction formats
+- Parse, display and sign all Velas CLI generated transaction formats
 - Blind sign arbitrary transactions (Enabled via settings)
 
 ## Prerequisites
@@ -18,8 +19,8 @@ Install Vagrant and VirtualBox.
 Clone this git repo recursively, such that it includes the BOLOS SDK in a submodule:
 
 ```bash
-$ git clone --recursive git@github.com:solana-labs/ledger-app-solana.git
-cd ledger-app-solana
+$ git clone git@github.com:blooo-io/LedgerHQ-app-velas.git
+cd LedgerHQ-app-velas
 ```
 
 ## Creating the development environment

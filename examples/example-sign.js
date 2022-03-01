@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "solana",
+  "author": "velas",
   "license": "ISC",
   "dependencies": {
     "@ledgerhq/hw-transport-node-hid": "5.17.0",
@@ -77,8 +77,8 @@ function _harden(n) {
 
 function solana_derivation_path(account, change) {
   var length;
-  if (typeof(account) === 'number') {
-    if (typeof(change) === 'number') {
+  if (typeof (account) === 'number') {
+    if (typeof (change) === 'number') {
       length = 4;
     } else {
       length = 3;
@@ -91,7 +91,7 @@ function solana_derivation_path(account, change) {
   var offset = 0;
   offset = derivation_path.writeUInt8(length, offset);
   offset = derivation_path.writeUInt32BE(_harden(44), offset);  // Using BIP44
-  offset = derivation_path.writeUInt32BE(_harden(501), offset); // Solana's BIP44 path
+  offset = derivation_path.writeUInt32BE(_harden(574), offset); // Velas's BIP44 path
 
   if (length > 2) {
     offset = derivation_path.writeUInt32BE(_harden(account), offset);
@@ -119,7 +119,7 @@ async function solana_ledger_sign_transaction(transport, derivation_path, transa
   return solana_send(transport, INS_SIGN_MESSAGE, P1_CONFIRM, payload);
 }
 
-( async () => {
+(async () => {
   var transport = await Transport.create();
 
   const from_derivation_path = solana_derivation_path();
@@ -145,14 +145,14 @@ async function solana_ledger_sign_transaction(transport, derivation_path, transa
   // cluster in normal use.
   const recentBlockhash = bs58.encode(Buffer.from([
     3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-      3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+    3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
   ]));
 
   var tx = new solana.Transaction({
     recentBlockhash,
     feePayer: from_pubkey,
   })
-  .add(ix);
+    .add(ix);
 
   const sig_bytes = await solana_ledger_sign_transaction(transport, from_derivation_path, tx);
 
@@ -161,5 +161,5 @@ async function solana_ledger_sign_transaction(transport, derivation_path, transa
 
   tx.addSignature(from_pubkey, sig_bytes);
   console.log("--- verifies:", tx.verifySignatures());
-})().catch(e => console.log(e) );
+})().catch(e => console.log(e));
 
