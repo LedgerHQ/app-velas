@@ -1,9 +1,9 @@
-Solana application : Common Technical Specifications
+Velas application : Common Technical Specifications
 =======================================================
 
 ## About
 
-This application describes the APDU messages interface to communicate with the Solana application.
+This application describes the APDU messages interface to communicate with the Velas application.
 
 The application covers the following functionalities :
 
@@ -45,7 +45,7 @@ _None_
 
 #### Description
 
-_This command returns a Solana pubkey for the given BIP 32 path_
+_This command returns a Velas pubkey for the given BIP 32 path_
 
 ##### Command
 
@@ -77,7 +77,7 @@ _This command returns a Solana pubkey for the given BIP 32 path_
 
 #### Description
 
-_This command signs a Solana Transaction after having the user validate the transaction-specific parameters:_
+_This command signs a Velas Transaction after having the user validate the transaction-specific parameters:_
 
 ##### Command
 
