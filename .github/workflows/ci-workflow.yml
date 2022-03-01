@@ -62,9 +62,9 @@ jobs:
         run : |
           make -C libsol
 
+
       - name: Cargo Test
         run : |
-          make
           export PATH="${HOME}/.cargo/bin:${PATH}"
           cd ./tests
           cargo clippy --all -- --deny=warnings
