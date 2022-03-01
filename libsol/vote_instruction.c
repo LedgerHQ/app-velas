@@ -1,8 +1,10 @@
+// clang-format off
 #include "common_byte_strings.h"
 #include "instruction.h"
 #include "sol/transaction_summary.h"
 #include "util.h"
 #include "vote_instruction.h"
+// clang-format on
 
 const Pubkey vote_program_id = {{PROGRAM_ID_VOTE}};
 

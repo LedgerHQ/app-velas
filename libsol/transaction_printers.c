@@ -1,8 +1,10 @@
+// clang-format off
 #include "instruction.h"
 #include "sol/parser.h"
 #include "sol/transaction_summary.h"
 #include "transaction_printers.h"
 #include "util.h"
+// clang-format on
 
 const InstructionBrief create_stake_account_brief[] = {
     SYSTEM_IX_BRIEF(SystemCreateAccount),

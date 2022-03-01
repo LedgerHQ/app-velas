@@ -1,9 +1,11 @@
+// clang-format off
 #include "common_byte_strings.h"
 #include "instruction.h"
 #include "sol/parser.h"
 #include "sol/transaction_summary.h"
 #include "spl_associated_token_account_instruction.h"
 #include "util.h"
+// clang-format on
 
 const Pubkey spl_associated_token_account_program_id = {
     {PROGRAM_ID_SPL_ASSOCIATED_TOKEN_ACCOUNT}};
