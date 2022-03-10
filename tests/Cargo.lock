@@ -991,7 +991,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "ledger-app-solana-tests"
+name = "ledger-app-velas-tests"
 version = "0.1.0"
 dependencies = [
  "hex",

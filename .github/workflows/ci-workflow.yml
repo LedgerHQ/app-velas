@@ -19,13 +19,12 @@ jobs:
     steps:
       - name: Clone
         uses: actions/checkout@v2
-        with:
-          submodules: recursive
-
+      
       - name: Build plugin for Nano S
         run: |
           make clean
           make BOLOS_SDK=$NANOS_SDK
+  
   job_build_debug_nano_x:
     name: Build debug Nano X
     runs-on: ubuntu-latest
@@ -36,9 +35,7 @@ jobs:
     steps:
       - name: Clone
         uses: actions/checkout@v2
-        with:
-          submodules: recursive
-
+        
       - name: Build plugin for Nano X
         run: |
           make clean
@@ -53,11 +50,35 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
       - name: Unit Test
         run : |
           make -C libsol
 
+  jobs-tests:
+    name: Tests
+    needs: [jobs-unit-tests]
+    runs-on: ubuntu-latest
+    # container:
+    #   image: ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Unit Test
+        run : |
+          sudo apt update
+          sudo apt install -y gcc-multilib libudev-dev libusb-1.0-0-dev pkg-config python3-venv python3-pip python3-pil
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o /tmp/rustup-init.sh
+          sh /tmp/rustup-init.sh -y --default-toolchain 1.45.2 --component clippy --component rustfmt
+          source ./prepare-devenv.sh s
 
+          make -C libsol
+          make
+          make -f host.mk release
+          export PATH="${HOME}/.cargo/bin:${PATH}"
+          cd ./tests
+          cargo clippy --all -- --deny=warnings
+          cargo fmt --all -- --check
 
           
 

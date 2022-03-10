@@ -1,3 +1,5 @@
+ # --path "44'/5655640'"
+
 #*******************************************************************************
 #   Ledger App
 #   (c) 2017 Ledger
@@ -26,16 +28,16 @@ APPVERSION_P=0
 APPVERSION=$(APPVERSION_M).$(APPVERSION_N).$(APPVERSION_P)
 APPNAME = "Velas"
 
-# APP_LOAD_PARAMS = --curve ed25519 --path "44'/5655640'" --appFlags 0x240 $(COMMON_LOAD_PARAMS)
 APP_LOAD_PARAMS = --curve ed25519 --path "44'/501'" --appFlags 0x240 $(COMMON_LOAD_PARAMS)
 
+# --path "44'/5655640'"
 
 DEFINES += $(DEFINES_LIB)
 
-ifeq ($(TARGET_NAME),TARGET_NANOX)
-	ICONNAME=icons/nanox_app_velas.gif
-else
+ifeq ($(TARGET_NAME),TARGET_NANOS)
 	ICONNAME=icons/nanos_app_velas.gif
+else
+	ICONNAME=icons/nanox_app_velas.gif
 endif
 
 ################
@@ -58,7 +60,7 @@ DEFINES += NDEBUG
 
 # U2F
 DEFINES   += HAVE_U2F HAVE_IO_U2F
-DEFINES   += U2F_PROXY_MAGIC=\"~VLX\"
+DEFINES   += U2F_PROXY_MAGIC=\"~SOL\"
 DEFINES   += USB_SEGMENT_SIZE=64
 DEFINES   += BLE_SEGMENT_SIZE=32 #max MTU, min 20
 
@@ -72,18 +74,20 @@ DEFINES   += APPVERSION=\"$(APPVERSION)\"
 
 
 ifeq ($(TARGET_NAME),TARGET_NANOX)
-DEFINES   	  += IO_SEPROXYHAL_BUFFER_SIZE_B=300
 DEFINES       += HAVE_BLE BLE_COMMAND_TIMEOUT_MS=2000
 DEFINES       += HAVE_BLE_APDU # basic ledger apdu transport over BLE
+endif
 
+ifeq ($(TARGET_NAME),TARGET_NANOS)
+DEFINES       += IO_SEPROXYHAL_BUFFER_SIZE_B=128
+else
+DEFINES       += IO_SEPROXYHAL_BUFFER_SIZE_B=300
 DEFINES       += HAVE_GLO096
 DEFINES       += HAVE_BAGL BAGL_WIDTH=128 BAGL_HEIGHT=64
 DEFINES       += HAVE_BAGL_ELLIPSIS # long label truncation feature
 DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_REGULAR_11PX
 DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_EXTRABOLD_11PX
 DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_LIGHT_16PX
-else
-DEFINES   	  += IO_SEPROXYHAL_BUFFER_SIZE_B=128
 endif
 
 # Both nano S and X benefit from the flow.
@@ -93,10 +97,10 @@ DEFINES       += HAVE_UX_FLOW
 DEBUG = 0
 ifneq ($(DEBUG),0)
 
-        ifeq ($(TARGET_NAME),TARGET_NANOX)
-                DEFINES   += HAVE_PRINTF PRINTF=mcu_usb_printf
-        else
+        ifeq ($(TARGET_NAME),TARGET_NANOS)
                 DEFINES   += HAVE_PRINTF PRINTF=screen_printf
+        else
+                DEFINES   += HAVE_PRINTF PRINTF=mcu_usb_printf
         endif
 else
         DEFINES   += PRINTF\(...\)=
@@ -138,11 +142,11 @@ include $(BOLOS_SDK)/Makefile.glyphs
 APP_SOURCE_PATH  += src
 SOURCE_FILES += $(filter-out %_test.c,$(wildcard libsol/*.c))
 SDK_SOURCE_PATH  += lib_stusb lib_stusb_impl lib_u2f
+SDK_SOURCE_PATH  += lib_ux
 CFLAGS += -Ilibsol/include
 
 ifeq ($(TARGET_NAME),TARGET_NANOX)
 SDK_SOURCE_PATH  += lib_blewbxx lib_blewbxx_impl
-SDK_SOURCE_PATH  += lib_ux
 endif
 
 # import generic rules from the sdk
