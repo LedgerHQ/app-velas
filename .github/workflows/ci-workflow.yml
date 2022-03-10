@@ -64,7 +64,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Unit Test
+      - name: Test
         run : |
           sudo apt update
           sudo apt install -y gcc-multilib libudev-dev libusb-1.0-0-dev pkg-config python3-venv python3-pip python3-pil
@@ -74,7 +74,7 @@ jobs:
 
           make -C libsol
           make
-          make -f host.mk release
+          # make -f host.mk release
           export PATH="${HOME}/.cargo/bin:${PATH}"
           cd ./tests
           cargo clippy --all -- --deny=warnings
