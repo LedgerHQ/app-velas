@@ -65,7 +65,7 @@ jobs:
       - name: Test
         run : |
           sudo apt update
-          sudo apt install -y libusb-1.0.0 libudev-dev
+          sudo apt install -y libudev-dev libusb-1.0-0-dev
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o /tmp/rustup-init.sh
           sh /tmp/rustup-init.sh -y --component clippy --component rustfmt
           export PATH="${HOME}/.cargo/bin:${PATH}"
