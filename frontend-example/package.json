@@ -1,0 +1,21 @@
+{
+  "name": "velas",
+  "version": "1.0.0",
+  "description": "",
+  "source": "index.html",
+  "scripts": {
+    "start": "parcel"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.0.1"
+  },
+  "dependencies": {
+    "@blooo/hw-app-velas": "^1.0.1",
+    "@ledgerhq/hw-transport-webusb": "^6.19.0",
+    "@ledgerhq/logs": "^6.10.0",
+    "@velas/web3": "^0.1.14",
+    "bs58": "^4.0.1"
+  }
+}

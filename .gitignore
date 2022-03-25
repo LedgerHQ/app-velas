@@ -10,3 +10,7 @@ src/glyphs.h
 gitignore
 .vagrant
 libsol/target
+node_modules
+dist
+.parcel-cache
+.DS_Store
