@@ -3,7 +3,7 @@ In this section, we will guide you through the creation of an application. This 
 The purpose of the application is to transfer VLX from your Velas account on your Ledger to another account.
 
 ### Install the Velas Nano App
-First you need to install the Velas Nano App from Ledger Live as shown in the [prerequisites](../prerequisites) for Ethereum.
+First you need to install the Velas Nano App from Ledger Live.
 
 ### Start the Development Server
 Start the development server:
@@ -12,10 +12,10 @@ Start the development server:
 npm run start
 ```
 
-Now the application is up and running. Open Chrome and go to `localhost:1234`, it will display :
+Now the application is up and running. Open Chrome and go to [http://localhost:1234](http://localhost:1234), it will display :
 
 {: .center}
-[![Application running on browser](../images/tutorial-1-solana.png)](../images/tutorial-1-solana.png){: style="border-bottom:none;"}   
+[![Application running on browser](../images/tutorial-1-velas.png)](../assets/tutorial-1-velas.png){: style="border-bottom:none;"}   
 *Fig. 3: Application Running on Browser*
 
 ### Plug Your Ledger Device
