@@ -1,16 +1,16 @@
-import * as SolanaWeb3 from '@solana/web3.js';
+import * as VelasWeb3 from '@solana/web3.js';
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
-import Solana from "@ledgerhq/hw-app-solana";
+import Velas from "@ledgerhq/hw-app-solana";
 import { listen } from "@ledgerhq/logs";
 import bs58 from "bs58";
 
-//Infuria provider for Solana devnet network
-const connection = new SolanaWeb3.Connection("https://explorer.testnet.velas.com/rpc");
+//Provider for Velas testnet network
+const connection = new VelasWeb3.Connection("https://explorer.testnet.velas.com/rpc");
 
 let transport;
-let _sol;
+let _velas;
 let addressWallet;
-let recipient = SolanaWeb3.Keypair.generate().publicKey;
+let recipient = VelasWeb3.Keypair.generate().publicKey;
 let value = 0.1;
 let gasPrice;
 
@@ -21,21 +21,21 @@ document.getElementById("connect-ledger").onclick = async function () {
     transport = await TransportWebUSB.create();
 
     //Getting an Ethereum instance and get the Ledger Nano ethereum account public key
-    _sol = new Solana(transport);
-    const { address } = await _sol.getAddress("44'/501'");
+    _velas = new Velas(transport);
+    const { address } = await _velas.getAddress("44'/501'");
 
-    addressWallet = new SolanaWeb3.PublicKey(bs58.encode(address));
+    addressWallet = new VelasWeb3.PublicKey(bs58.encode(address));
 
     console.log(connection);
     const balance = await connection.getBalance(addressWallet);
 
 
     //Get some properties from provider
-    gasPrice = SolanaWeb3.LAMPORTS_PER_SOL / 100;
+    gasPrice = VelasWeb3.LAMPORTS_PER_SOL / 100;
 
     //Fill the inputs with the default value
     document.getElementById("wallet").value = bs58.encode(address);
-    document.getElementById("balance").value = balance/ SolanaWeb3.LAMPORTS_PER_SOL;
+    document.getElementById("balance").value = balance/ VelasWeb3.LAMPORTS_PER_SOL;
     document.getElementById("gasPrice").value = parseInt(gasPrice) + " wei";
     document.getElementById("value").value = value;
     document.getElementById("recipient").value = recipient.toBase58();
@@ -44,17 +44,17 @@ document.getElementById("connect-ledger").onclick = async function () {
 
 document.getElementById("tx-transfer").onclick = async function () {
     //Getting information from the inputs
-    recipient = new SolanaWeb3.PublicKey(document.getElementById("recipient").value);
+    recipient = new VelasWeb3.PublicKey(document.getElementById("recipient").value);
     value = document.getElementById("value").value;
 
     //Building transaction with the information gathered
     try {
         const recentBlockhash = await connection.getRecentBlockhash();
-        const transaction = new SolanaWeb3.Transaction({ feePayer: addressWallet, recentBlockhash: recentBlockhash.blockhash}).add(
-            SolanaWeb3.SystemProgram.transfer({
+        const transaction = new VelasWeb3.Transaction({ feePayer: addressWallet, recentBlockhash: recentBlockhash.blockhash}).add(
+            VelasWeb3.SystemProgram.transfer({
                 fromPubkey: addressWallet,
                 toPubkey: recipient,
-                lamports: SolanaWeb3.LAMPORTS_PER_SOL * value,
+                lamports: VelasWeb3.LAMPORTS_PER_SOL * value,
             }),
         );
 
@@ -63,7 +63,7 @@ document.getElementById("tx-transfer").onclick = async function () {
         const unsignedTx = transaction.serializeMessage();
 
         //Sign with the Ledger Nano (Sign what you see)
-        const { signature } = await _sol.signTransaction("44'/501'", unsignedTx);
+        const { signature } = await _velas.signTransaction("44'/501'", unsignedTx);
         transaction.addSignature(addressWallet,signature);
 
         //Serialize the same transaction as before, but added the signature on it
