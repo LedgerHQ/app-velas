@@ -1,6 +1,6 @@
-import * as VelasWeb3 from '@solana/web3.js';
+import * as VelasWeb3 from '@velas/web3';
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
-import Velas from "@ledgerhq/hw-app-solana";
+import Velas from "@blooo/hw-app-velas";
 import { listen } from "@ledgerhq/logs";
 import bs58 from "bs58";
 
