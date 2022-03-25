@@ -14,8 +14,6 @@ Current Features:
 
 ## Prerequisites
 
-Install Vagrant and VirtualBox.
-
 Clone this git repo recursively, such that it includes the BOLOS SDK in a submodule:
 
 ```bash
@@ -25,40 +23,49 @@ cd LedgerHQ-app-velas
 
 ## Creating the development environment
 
-To start the Ubuntu 18.04 VM:
-
-```bash
-$ vagrant up
-```
-
-To enter the VM:
-
-```bash
-$ vagrant ssh
-```
+You can use an Ubuntu 20.04 VM or a dedicated OS
 
 ## Alternative Setup, For those not using Vagrant
 
 To build and install the app on your Ledger Nano S you must set up the Ledger Nano S build environments. Please follow the Getting Started instructions at [here](https://ledger.readthedocs.io/en/latest/userspace/getting_started.html).
 
-If you don't want to setup a global environnment, you can also setup one just for this app by sourcing `prepare-devenv.sh` with the right target (`s` or `x`).
 
 install prerequisite and switch to a Nano X dev-env:
 
 ```bash
-sudo apt install python3-venv python3-dev libudev-dev libusb-1.0-0-dev
-
-# (x or s, depending on your device)
-source prepare-devenv.sh x
+sudo apt install libudev-dev libusb-1.0-0-dev docker.io
 ```
 
 ## Building and installing
 
-Compile:
+In order to compile and unit test the app you have to use the docker ledger builder image
 
 ```bash
-make
+
+./start_builder.sh
+# docker run --rm -ti -v "$(realpath .):/app" --privileged ghcr.io/ledgerhq/ledger-app-builder/ledger-app-builder:latest
+
 ```
+
+`--privileged `: option allowing to deploy the app on the ledger nano S hardware wallet later.
+
+
+### Nano S
+
+Compile within the docker container:
+
+```bash
+make clean
+make BOLOS_SDK=$NANOS_SDK
+```
+### Nano X
+
+```bash
+make clean
+make BOLOS_SDK=$NANOX_SDK
+```
+
+
 
 Refresh the repo (required after Makefile edits):
 ```bash
@@ -84,6 +91,13 @@ make delete
 
 
 ## Example of Ledger wallet functionality
+
+To test the application using a the real Nano S hardware:
+
+1. Connect the hardware wallet to the VM / Linux Machine.
+2. Unlock the ledger Nano S and open the Velas App.
+3. Go to `Settings` and select Yes for `Allow Blind Signing`.
+4. Then from the project source directory:
 
 ```bash
 cd tests
