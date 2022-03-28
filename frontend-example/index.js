@@ -22,7 +22,7 @@ document.getElementById("connect-ledger").onclick = async function () {
 
     //Getting an Ethereum instance and get the Ledger Nano ethereum account public key
     _velas = new Velas(transport);
-    const { address } = await _velas.getAddress("44'/501'");
+    const { address } = await _velas.getAddress("44'/5655640'");
 
     addressWallet = new VelasWeb3.PublicKey(bs58.encode(address));
 
@@ -63,7 +63,7 @@ document.getElementById("tx-transfer").onclick = async function () {
         const unsignedTx = transaction.serializeMessage();
 
         //Sign with the Ledger Nano (Sign what you see)
-        const { signature } = await _velas.signTransaction("44'/501'", unsignedTx);
+        const { signature } = await _velas.signTransaction("44'/5655640'", unsignedTx);
         transaction.addSignature(addressWallet,signature);
 
         //Serialize the same transaction as before, but added the signature on it
