@@ -32,6 +32,10 @@ APP_LOAD_PARAMS = --curve ed25519 --path "44'/5655640'" --appFlags 0x240 $(COMMO
 
 # --path "44'/5655640'"
 
+# Pending review parameters
+APP_LOAD_PARAMS += --tlvraw 9F:01
+DEFINES += HAVE_PENDING_REVIEW_SCREEN
+
 DEFINES += $(DEFINES_LIB)
 
 ifeq ($(TARGET_NAME),TARGET_NANOS)
