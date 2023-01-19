@@ -33,13 +33,18 @@ APP_LOAD_PARAMS = --curve ed25519 --path "44'/5655640'" --appFlags 0x240 $(COMMO
 # --path "44'/5655640'"
 
 # Pending review parameters
+ifeq ($(TARGET_NAME),TARGET_FATSTACKS)
+else
 APP_LOAD_PARAMS += --tlvraw 9F:01
 DEFINES += HAVE_PENDING_REVIEW_SCREEN
+endif
 
 DEFINES += $(DEFINES_LIB)
 
 ifeq ($(TARGET_NAME),TARGET_NANOS)
 	ICONNAME=icons/nanos_app_velas.gif
+else ifeq ($(TARGET_NAME),TARGET_FATSTACKS)
+	ICONNAME=icons/stax_app_velas_32px.gif
 else
 	ICONNAME=icons/nanox_app_velas.gif
 endif
@@ -54,10 +59,15 @@ all: default
 ############
 
 DEFINES   += OS_IO_SEPROXYHAL
-DEFINES   += HAVE_BAGL HAVE_SPRINTF
+DEFINES   += HAVE_SPRINTF
 DEFINES   += HAVE_SNPRINTF_FORMAT_U
 DEFINES   += HAVE_IO_USB HAVE_L4_USBLIB IO_USB_MAX_ENDPOINTS=6 IO_HID_EP_LENGTH=64 HAVE_USB_APDU
 DEFINES   += LEDGER_MAJOR_VERSION=$(APPVERSION_M) LEDGER_MINOR_VERSION=$(APPVERSION_N) LEDGER_PATCH_VERSION=$(APPVERSION_P)
+
+ifneq ($(TARGET_NAME),TARGET_FATSTACKS)
+DEFINES += HAVE_BAGL HAVE_UX_FLOW
+endif
+
 
 # no assert by default
 DEFINES += NDEBUG
@@ -77,25 +87,28 @@ DEFINES   += UNUSED\(x\)=\(void\)x
 DEFINES   += APPVERSION=\"$(APPVERSION)\"
 
 
-ifeq ($(TARGET_NAME),TARGET_NANOX)
+ifneq (,$(filter $(TARGET_NAME),TARGET_NANOX TARGET_FATSTACKS))
 DEFINES       += HAVE_BLE BLE_COMMAND_TIMEOUT_MS=2000
 DEFINES       += HAVE_BLE_APDU # basic ledger apdu transport over BLE
+SDK_SOURCE_PATH  += lib_blewbxx lib_blewbxx_impl
 endif
 
 ifeq ($(TARGET_NAME),TARGET_NANOS)
 DEFINES       += IO_SEPROXYHAL_BUFFER_SIZE_B=128
 else
 DEFINES       += IO_SEPROXYHAL_BUFFER_SIZE_B=300
+endif
+
+ifeq ($(TARGET_NAME),TARGET_FATSTACKS)
+DEFINES          += NBGL_QRCODE
+else ifneq ($(TARGET_NAME),TARGET_NANOS)
 DEFINES       += HAVE_GLO096
-DEFINES       += HAVE_BAGL BAGL_WIDTH=128 BAGL_HEIGHT=64
+DEFINES       += BAGL_WIDTH=128 BAGL_HEIGHT=64
 DEFINES       += HAVE_BAGL_ELLIPSIS # long label truncation feature
 DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_REGULAR_11PX
 DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_EXTRABOLD_11PX
 DEFINES       += HAVE_BAGL_FONT_OPEN_SANS_LIGHT_16PX
 endif
-
-# Both nano S and X benefit from the flow.
-DEFINES       += HAVE_UX_FLOW
 
 # Enabling debug PRINTF
 DEBUG = 0
@@ -131,12 +144,9 @@ endif
 
 CC := $(CLANGPATH)clang
 
-CFLAGS   += -O3 -Os
-
 AS     := $(GCCPATH)arm-none-eabi-gcc
 
 LD       := $(GCCPATH)arm-none-eabi-gcc
-LDFLAGS  += -O3 -Os
 LDLIBS   += -lm -lgcc -lc
 
 # import rules to compile glyphs(/pone)
@@ -146,12 +156,15 @@ include $(BOLOS_SDK)/Makefile.glyphs
 APP_SOURCE_PATH  += src
 SOURCE_FILES += $(filter-out %_test.c,$(wildcard libsol/*.c))
 SDK_SOURCE_PATH  += lib_stusb lib_stusb_impl lib_u2f
-SDK_SOURCE_PATH  += lib_ux
-CFLAGS += -Ilibsol/include
 
-ifeq ($(TARGET_NAME),TARGET_NANOX)
-SDK_SOURCE_PATH  += lib_blewbxx lib_blewbxx_impl
+ifeq ($(TARGET_NAME),TARGET_FATSTACKS)
+SDK_SOURCE_PATH += lib_nbgl/src
+SDK_SOURCE_PATH += lib_ux_fatstacks
+else
+SDK_SOURCE_PATH += lib_ux
 endif
+
+CFLAGS += -Ilibsol/include
 
 # import generic rules from the sdk
 include $(BOLOS_SDK)/Makefile.rules

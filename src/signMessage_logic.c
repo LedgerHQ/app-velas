@@ -9,6 +9,7 @@
 #include "sol/printer.h"
 #include "sol/message.h"
 #include "sol/transaction_summary.h"
+#include "signMessage.h"
 // clang-format on
 
 static uint8_t G_message[MAX_MESSAGE_LENGTH];
@@ -35,7 +36,7 @@ void derive_private_key(cx_ecfp_private_key_t *privateKey,
   END_TRY;
 }
 
-static uint8_t set_result_sign_message() {
+uint8_t set_result_sign_message() {
   uint8_t tx = 64;
   uint8_t signature[SIGNATURE_LENGTH];
   cx_ecfp_private_key_t privateKey;
@@ -51,43 +52,6 @@ static uint8_t set_result_sign_message() {
   END_TRY;
   return tx;
 }
-
-//////////////////////////////////////////////////////////////////////
-
-UX_STEP_VALID(ux_approve_step, pb,
-              sendResponse(set_result_sign_message(), true),
-              {
-                  &C_icon_validate_14,
-                  "Approve",
-              });
-UX_STEP_VALID(ux_reject_step, pb, sendResponse(0, false),
-              {
-                  &C_icon_crossmark,
-                  "Reject",
-              });
-UX_STEP_NOCB_INIT(ux_summary_step, bnnn_paging,
-                  {
-                    size_t step_index = G_ux.flow_stack[stack_slot].index;
-                    enum DisplayFlags flags = DisplayFlagNone;
-                    if (N_storage.settings.pubkey_display ==
-                        PubkeyDisplayLong) {
-                      flags |= DisplayFlagLongPubkeys;
-                    }
-                    if (transaction_summary_display_item(step_index, flags)) {
-                      THROW(ApduReplyVelasSummaryUpdateFailed);
-                    }
-                  },
-                  {
-                      .title = G_transaction_summary_title,
-                      .text = G_transaction_summary_text,
-                  });
-
-#define MAX_FLOW_STEPS                                                         \
-  (MAX_TRANSACTION_SUMMARY_ITEMS + 1 /* approve */                             \
-   + 1                               /* reject */                              \
-   + 1                               /* FLOW_END_STEP */                       \
-  )
-ux_flow_step_t const *flow_steps[MAX_FLOW_STEPS];
 
 Hash UnrecognizedMessageHash;
 
@@ -216,17 +180,7 @@ void handleSignMessage(uint8_t p1, uint8_t p2, uint8_t *dataBuffer,
   size_t num_summary_steps = 0;
   if (transaction_summary_finalize(summary_step_kinds, &num_summary_steps) ==
       0) {
-    size_t num_flow_steps = 0;
-
-    for (size_t i = 0; i < num_summary_steps; i++) {
-      flow_steps[num_flow_steps++] = &ux_summary_step;
-    }
-
-    flow_steps[num_flow_steps++] = &ux_approve_step;
-    flow_steps[num_flow_steps++] = &ux_reject_step;
-    flow_steps[num_flow_steps++] = FLOW_END_STEP;
-
-    ux_flow_init(0, flow_steps, NULL);
+    sign_message_ui(num_summary_steps);
   } else {
     THROW(ApduReplyVelasSummaryFinalizeFailed);
     return;

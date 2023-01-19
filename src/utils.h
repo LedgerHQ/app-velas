@@ -20,7 +20,9 @@ typedef enum rlpTxType {
   TX_FEE
 } rlpTxType;
 
+#ifdef HAVE_BAGL
 unsigned int ui_prepro(const bagl_element_t *element);
+#endif
 
 void getPublicKey(uint32_t *derivationPath, uint8_t *publicKeyArray,
                   uint8_t pathLength);

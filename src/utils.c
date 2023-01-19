@@ -49,6 +49,7 @@ void sendResponse(uint8_t tx, bool approve) {
   ui_idle();
 }
 
+#ifdef HAVE_BAGL
 unsigned int ui_prepro(const bagl_element_t *element) {
   unsigned int display = 1;
   if (element->component.userid > 0) {
@@ -64,3 +65,4 @@ unsigned int ui_prepro(const bagl_element_t *element) {
   }
   return display;
 }
+#endif

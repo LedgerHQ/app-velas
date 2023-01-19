@@ -212,10 +212,12 @@ void app_main(void) {
   return;
 }
 
+#ifdef HAVE_BAGL
 // override point, but nothing more to do
 void io_seproxyhal_display(const bagl_element_t *element) {
   io_seproxyhal_display_default((bagl_element_t *)element);
 }
+#endif // HAVE_BAGL
 
 unsigned char io_event(unsigned char channel) {
   // nothing done with the event, throw an error on the transport layer if
@@ -228,9 +230,11 @@ unsigned char io_event(unsigned char channel) {
     UX_FINGER_EVENT(G_io_seproxyhal_spi_buffer);
     break;
 
+#ifdef HAVE_BAGL
   case SEPROXYHAL_TAG_BUTTON_PUSH_EVENT:
     UX_BUTTON_PUSH_EVENT(G_io_seproxyhal_spi_buffer);
     break;
+#endif
 
   case SEPROXYHAL_TAG_STATUS_EVENT:
     if (G_io_apdu_media == IO_APDU_MEDIA_USB_HID &&
@@ -243,9 +247,11 @@ unsigned char io_event(unsigned char channel) {
     UX_DEFAULT_EVENT();
     break;
 
+#ifdef HAVE_BAGL
   case SEPROXYHAL_TAG_DISPLAY_PROCESSED_EVENT:
     UX_DISPLAYED_EVENT({});
     break;
+#endif
 
   case SEPROXYHAL_TAG_TICKER_EVENT:
     UX_TICKER_EVENT(G_io_seproxyhal_spi_buffer, {

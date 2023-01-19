@@ -7,7 +7,7 @@
 // clang-format on
 
 static uint8_t publicKey[PUBKEY_LENGTH];
-static char publicKeyStr[BASE58_PUBKEY_LENGTH];
+char publicKeyStr[BASE58_PUBKEY_LENGTH];
 
 int read_derivation_path(const uint8_t *dataBuffer, size_t size,
                          uint32_t *derivationPath) {
@@ -31,34 +31,12 @@ int read_derivation_path(const uint8_t *dataBuffer, size_t size,
   return len;
 }
 
-static uint8_t set_result_get_pubkey() {
+uint8_t set_result_get_pubkey() {
   uint8_t tx = 32;
 
   memmove(G_io_apdu_buffer, publicKey, 32);
   return tx;
 }
-
-//////////////////////////////////////////////////////////////////////
-
-UX_STEP_NOCB(ux_display_public_flow_5_step, bnnn_paging,
-             {
-                 .title = "Pubkey",
-                 .text = publicKeyStr,
-             });
-UX_STEP_VALID(ux_display_public_flow_6_step, pb,
-              sendResponse(set_result_get_pubkey(), true),
-              {
-                  &C_icon_validate_14,
-                  "Approve",
-              });
-UX_STEP_VALID(ux_display_public_flow_7_step, pb, sendResponse(0, false),
-              {
-                  &C_icon_crossmark,
-                  "Reject",
-              });
-
-UX_FLOW(ux_display_public_flow, &ux_display_public_flow_5_step,
-        &ux_display_public_flow_6_step, &ux_display_public_flow_7_step);
 
 void handleGetPubkey(uint8_t p1, uint8_t p2, uint8_t *dataBuffer,
                      uint16_t dataLength, volatile unsigned int *flags,
@@ -75,7 +53,7 @@ void handleGetPubkey(uint8_t p1, uint8_t p2, uint8_t *dataBuffer,
     *tx = set_result_get_pubkey();
     THROW(ApduReplySuccess);
   } else {
-    ux_flow_init(0, ux_display_public_flow, NULL);
+    get_pubkey_ui();
     *flags |= IO_ASYNCH_REPLY;
   }
 }
