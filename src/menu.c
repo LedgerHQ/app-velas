@@ -25,7 +25,7 @@ static void allow_blind_sign_data_change(enum BlindSign blind_sign) {
   ui_idle();
 }
 
-const char const *const no_yes_data_getter_values[] = {"No", "Yes", "Back"};
+const char *const no_yes_data_getter_values[] = {"No", "Yes", "Back"};
 
 static const char *allow_blind_sign_data_getter(unsigned int idx) {
   if (idx < ARRAYLEN(no_yes_data_getter_values)) {

@@ -221,6 +221,7 @@ unsigned char io_event(unsigned char channel) {
   // nothing done with the event, throw an error on the transport layer if
   // needed
 
+  (void)channel;
   // can't have more than one tag in the reply, not supported yet.
   switch (G_io_seproxyhal_spi_buffer[0]) {
   case SEPROXYHAL_TAG_FINGER_EVENT:

@@ -212,6 +212,8 @@ static int print_create_stake_account(const MessageHeader *header,
   const SystemCreateAccountInfo *ca_info = &infos[0]->system.create_account;
   const StakeInitializeInfo *si_info = &infos[1]->stake.initialize;
 
+  (void)infos_length;
+
   SummaryItem *item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Create stake acct", ca_info->to);
 
@@ -228,6 +230,8 @@ static int print_create_stake_account_with_seed(const MessageHeader *header,
       &infos[0]->system.create_account_with_seed;
   const StakeInitializeInfo *si_info = &infos[1]->stake.initialize;
 
+  (void)infos_length;
+
   SummaryItem *item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Create stake acct", cws_info->to);
 
@@ -242,6 +246,8 @@ static int print_stake_split_with_seed(const MessageHeader *header,
                                        size_t infos_length, bool legacy) {
   const Pubkey *base = NULL;
   const SizedString *seed = NULL;
+
+  (void)infos_length;
 
   if (legacy) {
     const SystemAllocateWithSeedInfo *aws_info =
@@ -275,6 +281,9 @@ static int print_stake_authorize_both(const MessageHeader *header,
   const StakeAuthorizeInfo *staker_info = &infos[0]->stake.authorize;
   const StakeAuthorizeInfo *withdrawer_info = &infos[1]->stake.authorize;
   SummaryItem *item;
+
+  (void)header;
+  (void)infos_length;
 
   // Sanity check
   BAIL_IF(staker_info->authorize != StakeAuthorizeStaker);
@@ -313,6 +322,8 @@ static int print_create_nonce_account(const MessageHeader *header,
   const SystemCreateAccountInfo *ca_info = &infos[0]->system.create_account;
   const SystemInitializeNonceInfo *ni_info = &infos[1]->system.initialize_nonce;
 
+  (void)infos_length;
+
   SummaryItem *item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Create nonce acct", ca_info->to);
 
@@ -329,6 +340,8 @@ static int print_create_nonce_account_with_seed(const MessageHeader *header,
       &infos[0]->system.create_account_with_seed;
   const SystemInitializeNonceInfo *ni_info = &infos[1]->system.initialize_nonce;
 
+  (void)infos_length;
+
   SummaryItem *item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Create nonce acct", ca_info->to);
 
@@ -343,6 +356,8 @@ static int print_create_vote_account(const MessageHeader *header,
                                      size_t infos_length) {
   const SystemCreateAccountInfo *ca_info = &infos[0]->system.create_account;
   const VoteInitializeInfo *vi_info = &infos[1]->vote.initialize;
+
+  (void)infos_length;
 
   SummaryItem *item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Create vote acct", ca_info->to);
@@ -360,6 +375,8 @@ static int print_create_vote_account_with_seed(const MessageHeader *header,
       &infos[0]->system.create_account_with_seed;
   const VoteInitializeInfo *vi_info = &infos[1]->vote.initialize;
 
+  (void)infos_length;
+
   SummaryItem *item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Create vote acct", ca_info->to);
 
@@ -375,6 +392,9 @@ static int print_vote_authorize_both(const MessageHeader *header,
   const VoteAuthorizeInfo *voter_info = &infos[0]->vote.authorize;
   const VoteAuthorizeInfo *withdrawer_info = &infos[1]->vote.authorize;
   SummaryItem *item;
+
+  (void)header;
+  (void)infos_length;
 
   // Sanity check
   BAIL_IF(voter_info->authorize != VoteAuthorizeVoter);
@@ -408,6 +428,9 @@ static int print_spl_token_create_mint(const MessageHeader *header,
   const SplTokenInitializeMintInfo *im_info =
       &infos[1]->spl_token.initialize_mint;
 
+  (void)header;
+  (void)infos_length;
+
   SummaryItem *item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Create token mint", im_info->mint_account);
 
@@ -439,6 +462,9 @@ static int print_spl_token_create_account(const MessageHeader *header,
   const SplTokenInitializeAccountInfo *ia_info =
       &infos[1]->spl_token.initialize_account;
 
+  (void)header;
+  (void)infos_length;
+
   SummaryItem *item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Create token acct", ia_info->token_account);
 
@@ -464,6 +490,9 @@ static int print_spl_token_create_multisig(const MessageHeader *header,
   const SplTokenInitializeMultisigInfo *im_info =
       &infos[1]->spl_token.initialize_multisig;
 
+  (void)header;
+  (void)infos_length;
+
   SummaryItem *item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Create multisig", im_info->multisig_account);
 
@@ -487,6 +516,9 @@ static int print_spl_token_create_mint_with_seed(const MessageHeader *header,
       &infos[0]->system.create_account_with_seed;
   const SplTokenInitializeMintInfo *im_info =
       &infos[1]->spl_token.initialize_mint;
+
+  (void)header;
+  (void)infos_length;
 
   SummaryItem *item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Create token mint", im_info->mint_account);
@@ -527,6 +559,9 @@ print_spl_token_create_account_with_seed(const MessageHeader *header,
   const SplTokenInitializeAccountInfo *ia_info =
       &infos[1]->spl_token.initialize_account;
 
+  (void)header;
+  (void)infos_length;
+
   SummaryItem *item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Create token acct", ia_info->token_account);
 
@@ -560,6 +595,9 @@ print_spl_token_create_multisig_with_seed(const MessageHeader *header,
   const SplTokenInitializeMultisigInfo *im_info =
       &infos[1]->spl_token.initialize_multisig;
 
+  (void)header;
+  (void)infos_length;
+
   SummaryItem *item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Create multisig", im_info->multisig_account);
 
@@ -588,6 +626,8 @@ static int print_spl_associated_token_account_create_with_transfer(
   const SplAssociatedTokenAccountCreateInfo *c_info =
       &infos[0]->spl_associated_token_account.create;
   const SplTokenTransferInfo *t_info = &infos[1]->spl_token.transfer;
+
+  (void)infos_length;
 
   print_spl_associated_token_account_create_info(c_info, header);
   print_spl_token_transfer_info(t_info, header, false);

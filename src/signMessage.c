@@ -44,7 +44,7 @@ static uint8_t set_result_sign_message() {
       derive_private_key(&privateKey, G_derivationPath, G_derivationPathLength);
       cx_eddsa_sign(&privateKey, CX_LAST, CX_SHA512, G_message, G_messageLength,
                     NULL, 0, signature, SIGNATURE_LENGTH, NULL);
-      os_memmove(G_io_apdu_buffer, signature, 64);
+      memmove(G_io_apdu_buffer, signature, 64);
     }
     FINALLY { MEMCLEAR(privateKey); }
   }
@@ -94,6 +94,8 @@ Hash UnrecognizedMessageHash;
 void handleSignMessage(uint8_t p1, uint8_t p2, uint8_t *dataBuffer,
                        uint16_t dataLength, volatile unsigned int *flags,
                        volatile unsigned int *tx) {
+  (void)tx;
+
   if (dataLength == 0) {
     THROW(ApduReplyVelasInvalidMessage);
   }
@@ -148,7 +150,7 @@ void handleSignMessage(uint8_t p1, uint8_t p2, uint8_t *dataBuffer,
   if (G_messageLength + messageLength > MAX_MESSAGE_LENGTH) {
     THROW(ApduReplySdkExceptionOverflow);
   }
-  os_memmove(G_message + G_messageLength, dataBuffer, messageLength);
+  memmove(G_message + G_messageLength, dataBuffer, messageLength);
   G_messageLength += messageLength;
 
   if (p2 & P2_MORE) {

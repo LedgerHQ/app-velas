@@ -92,6 +92,8 @@ static int parse_stake_initialize_instruction(Parser *parser,
 static int parse_stake_initialize_checked_instruction(
     Parser *parser, const Instruction *instruction, const MessageHeader *header,
     StakeInitializeInfo *info) {
+  (void)parser;
+
   InstructionAccountsIterator it;
   instruction_accounts_iterator_init(&it, header, instruction);
 
@@ -170,6 +172,8 @@ static int parse_stake_deactivate_instruction(Parser *parser,
                                               const Instruction *instruction,
                                               const MessageHeader *header,
                                               StakeDeactivateInfo *info) {
+  (void)parser;
+
   InstructionAccountsIterator it;
   instruction_accounts_iterator_init(&it, header, instruction);
 
@@ -345,6 +349,8 @@ static int print_delegate_stake_info(const StakeDelegateInfo *info,
 
 static int print_stake_withdraw_info(const StakeWithdrawInfo *info,
                                      const MessageHeader *header) {
+  (void)header;
+
   SummaryItem *item;
 
   item = transaction_summary_primary_item();
@@ -364,6 +370,8 @@ static int print_stake_withdraw_info(const StakeWithdrawInfo *info,
 
 static int print_stake_authorize_info(const StakeAuthorizeInfo *info,
                                       const MessageHeader *header) {
+  (void)header;
+
   const char *new_authority_title = NULL;
   SummaryItem *item;
 
@@ -397,6 +405,8 @@ static int print_stake_deactivate_info(const StakeDeactivateInfo *info,
                                        const MessageHeader *header) {
   SummaryItem *item;
 
+  (void)header;
+
   item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Deactivate stake", info->account);
 
@@ -409,6 +419,8 @@ static int print_stake_deactivate_info(const StakeDeactivateInfo *info,
 static int print_stake_set_lockup_info(const StakeSetLockupInfo *info,
                                        const MessageHeader *header) {
   SummaryItem *item;
+
+  (void)header;
 
   item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Set lockup", info->account);
@@ -437,6 +449,8 @@ static int print_stake_set_lockup_info(const StakeSetLockupInfo *info,
 
 static int print_stake_split_info(const StakeSplitInfo *info,
                                   const MessageHeader *header) {
+  (void)header;
+
   BAIL_IF(print_stake_split_info1(info, header));
   return print_stake_split_info2(info, header);
 }
@@ -444,6 +458,8 @@ static int print_stake_split_info(const StakeSplitInfo *info,
 static int print_stake_merge_info(const StakeMergeInfo *info,
                                   const MessageHeader *header) {
   SummaryItem *item;
+
+  (void)header;
 
   item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Merge", info->source);
@@ -495,6 +511,8 @@ int print_stake_initialize_info(const char *primary_title,
   bool one_authority =
       pubkeys_equal(info->withdraw_authority, info->stake_authority);
 
+  (void)header;
+
   if (primary_title != NULL) {
     item = transaction_summary_primary_item();
     summary_item_set_pubkey(item, primary_title, info->account);
@@ -539,6 +557,8 @@ int print_stake_split_info1(const StakeSplitInfo *info,
                             const MessageHeader *header) {
   SummaryItem *item;
 
+  (void)header;
+
   item = transaction_summary_primary_item();
   summary_item_set_amount(item, "Split stake", info->lamports);
 
@@ -554,6 +574,8 @@ int print_stake_split_info1(const StakeSplitInfo *info,
 int print_stake_split_info2(const StakeSplitInfo *info,
                             const MessageHeader *header) {
   SummaryItem *item;
+
+  (void)header;
 
   item = transaction_summary_general_item();
   summary_item_set_pubkey(item, "Authorized by", info->authority);

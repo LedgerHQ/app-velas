@@ -85,6 +85,8 @@ static int parse_system_advance_nonce_account_instruction(
   InstructionAccountsIterator it;
   instruction_accounts_iterator_init(&it, header, instruction);
 
+  (void)parser;
+
   BAIL_IF(instruction_accounts_iterator_next(&it, &info->account));
   // Skip recent blockhashes sysvar
   BAIL_IF(instruction_accounts_iterator_next(&it, NULL));
@@ -279,6 +281,8 @@ static int print_system_withdraw_nonce_info(const SystemWithdrawNonceInfo *info,
                                             const MessageHeader *header) {
   SummaryItem *item;
 
+  (void)header;
+
   item = transaction_summary_primary_item();
   summary_item_set_amount(item, "Nonce withdraw", info->lamports);
 
@@ -299,6 +303,8 @@ print_system_authorize_nonce_info(const SystemAuthorizeNonceInfo *info,
                                   const MessageHeader *header) {
   SummaryItem *item;
 
+  (void)header;
+
   item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Set nonce auth", info->account);
 
@@ -315,6 +321,8 @@ static int print_system_allocate_info(const SystemAllocateInfo *info,
                                       const MessageHeader *header) {
   SummaryItem *item;
 
+  (void)header;
+
   item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Allocate acct", info->account);
 
@@ -327,6 +335,8 @@ static int print_system_allocate_info(const SystemAllocateInfo *info,
 static int print_system_assign_info(const SystemAssignInfo *info,
                                     const MessageHeader *header) {
   SummaryItem *item;
+
+  (void)header;
 
   item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Assign acct", info->account);
@@ -375,6 +385,8 @@ int print_system_nonced_transaction_sentinel(const SystemInfo *info,
   const SystemAdvanceNonceInfo *nonce_info = &info->advance_nonce;
   SummaryItem *item;
 
+  (void)header;
+
   item = transaction_summary_nonce_account_item();
   summary_item_set_pubkey(item, "Nonce account", nonce_info->account);
 
@@ -388,6 +400,9 @@ int print_system_create_account_info(const char *primary_title,
                                      const SystemCreateAccountInfo *info,
                                      const MessageHeader *header) {
   SummaryItem *item;
+
+  (void)header;
+
   if (primary_title != NULL) {
     item = transaction_summary_primary_item();
     summary_item_set_pubkey(item, primary_title, info->to);
@@ -406,6 +421,9 @@ int print_system_create_account_with_seed_info(
     const char *primary_title, const SystemCreateAccountWithSeedInfo *info,
     const MessageHeader *header) {
   SummaryItem *item;
+
+  (void)header;
+
   if (primary_title != NULL) {
     item = transaction_summary_primary_item();
     summary_item_set_pubkey(item, primary_title, info->to);
@@ -430,6 +448,9 @@ int print_system_initialize_nonce_info(const char *primary_title,
                                        const SystemInitializeNonceInfo *info,
                                        const MessageHeader *header) {
   SummaryItem *item;
+
+  (void)header;
+
   if (primary_title != NULL) {
     item = transaction_summary_primary_item();
     summary_item_set_pubkey(item, primary_title, info->account);
@@ -445,6 +466,8 @@ int print_system_allocate_with_seed_info(const char *primary_title,
                                          const SystemAllocateWithSeedInfo *info,
                                          const MessageHeader *header) {
   SummaryItem *item;
+
+  (void)header;
 
   if (primary_title != NULL) {
     item = transaction_summary_primary_item();

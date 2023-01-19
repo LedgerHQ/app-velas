@@ -408,6 +408,8 @@ print_spl_token_initialize_mint_info(const char *primary_title,
                                      const MessageHeader *header) {
   SummaryItem *item;
 
+  (void)header;
+
   if (primary_title != NULL) {
     item = transaction_summary_primary_item();
     summary_item_set_pubkey(item, primary_title, info->mint_account);
@@ -432,6 +434,8 @@ static int print_spl_token_initialize_account_info(
     const MessageHeader *header) {
   SummaryItem *item;
 
+  (void)header;
+
   if (primary_title != NULL) {
     item = transaction_summary_primary_item();
     summary_item_set_pubkey(item, primary_title, info->token_account);
@@ -451,6 +455,8 @@ static int print_spl_token_initialize_multisig_info(
     const MessageHeader *header) {
   SummaryItem *item;
 
+  (void)header;
+
   if (primary_title != NULL) {
     item = transaction_summary_primary_item();
     summary_item_set_pubkey(item, primary_title, info->multisig_account);
@@ -465,6 +471,8 @@ static int print_spl_token_initialize_multisig_info(
 int print_spl_token_transfer_info(const SplTokenTransferInfo *info,
                                   const MessageHeader *header, bool primary) {
   SummaryItem *item;
+
+  (void)header;
 
   if (primary) {
     item = transaction_summary_primary_item();
@@ -491,6 +499,8 @@ static int print_spl_token_approve_info(const SplTokenApproveInfo *info,
                                         const MessageHeader *header) {
   SummaryItem *item;
 
+  (void)header;
+
   item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Approve delegate", info->delegate);
 
@@ -511,6 +521,8 @@ static int print_spl_token_revoke_info(const SplTokenRevokeInfo *info,
                                        const MessageHeader *header) {
   SummaryItem *item;
 
+  (void)header;
+
   item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Revoke delegate", info->token_account);
 
@@ -523,6 +535,8 @@ static int
 print_spl_token_set_authority_info(const SplTokenSetAuthorityInfo *info,
                                    const MessageHeader *header) {
   SummaryItem *item;
+
+  (void)header;
 
   item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Set authority", info->account);
@@ -550,6 +564,8 @@ static int print_spl_token_mint_to_info(const SplTokenMintToInfo *info,
                                         const MessageHeader *header) {
   SummaryItem *item;
 
+  (void)header;
+
   item = transaction_summary_primary_item();
   const char *symbol = get_token_symbol(info->mint_account);
   summary_item_set_token_amount(item, "Mint tokens", info->body.amount, symbol,
@@ -570,6 +586,8 @@ static int print_spl_token_burn_info(const SplTokenBurnInfo *info,
                                      const MessageHeader *header) {
   SummaryItem *item;
 
+  (void)header;
+
   item = transaction_summary_primary_item();
   const char *symbol = get_token_symbol(info->mint_account);
   summary_item_set_token_amount(item, "Burn tokens", info->body.amount, symbol,
@@ -588,6 +606,8 @@ print_spl_token_close_account_info(const SplTokenCloseAccountInfo *info,
                                    const MessageHeader *header) {
   SummaryItem *item;
 
+  (void)header;
+
   item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Close acct", info->token_account);
 
@@ -603,6 +623,8 @@ static int
 print_spl_token_freeze_account_info(const SplTokenFreezeAccountInfo *info,
                                     const MessageHeader *header) {
   SummaryItem *item;
+
+  (void)header;
 
   item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Freeze acct", info->token_account);
@@ -620,6 +642,8 @@ print_spl_token_thaw_account_info(const SplTokenThawAccountInfo *info,
                                   const MessageHeader *header) {
   SummaryItem *item;
 
+  (void)header;
+
   item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Thaw acct", info->token_account);
 
@@ -634,6 +658,8 @@ print_spl_token_thaw_account_info(const SplTokenThawAccountInfo *info,
 static int print_spl_token_sync_native_info(const SplTokenSyncNativeInfo *info,
                                             const MessageHeader *header) {
   SummaryItem *item;
+
+  (void)header;
 
   item = transaction_summary_primary_item();
   summary_item_set_pubkey(item, "Sync native acct", info->token_account);
