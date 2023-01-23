@@ -318,10 +318,10 @@ void nv_app_state_init() {
   if (N_storage.initialized != 0x01) {
     internalStorage_t storage;
     storage.settings.allow_blind_sign = BlindSignDisabled;
-#if defined(TARGET_NANOX) || defined(TARGET_NANOS2)
-    storage.settings.pubkey_display = PubkeyDisplayLong;
-#else
+#ifdef TARGET_NANOS
     storage.settings.pubkey_display = PubkeyDisplayShort;
+#else
+    storage.settings.pubkey_display = PubkeyDisplayLong;
 #endif
     storage.initialized = 0x01;
     nvm_write((internalStorage_t *)&N_storage, (void *)&storage,

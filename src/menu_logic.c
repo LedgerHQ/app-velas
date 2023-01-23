@@ -5,6 +5,10 @@ void display_settings(void);
 void switch_allow_blind_sign_data(void);
 void switch_pubkey_display_data(void);
 
+void exit_app(void) {
+  os_sched_exit(-1);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////
 // Allow blind signing submenu
 

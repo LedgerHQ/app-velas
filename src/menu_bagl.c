@@ -24,7 +24,7 @@ UX_STEP_NOCB(ux_idle_flow_3_step, bn,
                  "Version",
                  APPVERSION,
              });
-UX_STEP_VALID(ux_idle_flow_4_step, pb, os_sched_exit(-1),
+UX_STEP_VALID(ux_idle_flow_4_step, pb, exit_app(),
               {
                   &C_icon_dashboard_x,
                   "Quit",

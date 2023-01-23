@@ -6,5 +6,6 @@
 
 void ui_idle(void);
 void allow_blind_sign_data_change(enum BlindSign blind_sign);
+void exit_app(void);
 
 #endif
